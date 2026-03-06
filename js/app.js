@@ -259,15 +259,16 @@ async function handleSubmit(e) {
 
   try {
     const email = document.getElementById('email').value.trim().toLowerCase();
+    const celular = document.getElementById('celular').value.trim();
 
-    // Check duplicate email
-    const existing = await db.collection('participantes')
-      .where('email', '==', email)
-      .limit(1)
-      .get();
+    // Check duplicate email OR phone
+    const [existingEmail, existingPhone] = await Promise.all([
+      db.collection('participantes').where('email', '==', email).limit(1).get(),
+      db.collection('participantes').where('celular', '==', celular).limit(1).get()
+    ]);
 
-    if (!existing.empty) {
-      showToast('⚠️ Este e-mail já está cadastrado no sorteio!', 'error');
+    if (!existingEmail.empty || !existingPhone.empty) {
+      showToast('⚠️ Você já está cadastrado no sorteio!', 'error');
       btn.disabled = false;
       btnText.style.display = 'inline';
       spinner.style.display = 'none';

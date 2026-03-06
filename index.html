@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta name="theme-color" content="#6B1E2E">
-  <meta name="description" content="Participe do sorteio de uma garrafa de Crémant de Bordeaux. Cadastre-se e concorra!">
+  <meta name="description"
+    content="Participe do sorteio de uma garrafa de Crémant de Bordeaux. Cadastre-se e concorra!">
   <title>Sorteio — Crémant de Bordeaux</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
     body {
-      background: linear-gradient(160deg, var(--burgundy-dark) 0%, var(--burgundy) 45%, #3D0B18 100%);
+      background: #f8f9fa;
+      /* Light grey/off-white background */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -27,9 +30,9 @@
 
     .event-badge {
       display: inline-block;
-      background: rgba(201,168,76,0.20);
-      border: 1px solid var(--gold);
-      color: var(--gold);
+      background: rgba(107, 30, 46, 0.05);
+      border: 1px solid var(--burgundy);
+      color: var(--burgundy);
       font-size: 0.75rem;
       font-weight: 600;
       text-transform: uppercase;
@@ -39,62 +42,42 @@
       margin-bottom: 24px;
     }
 
-    .wine-glass-icon {
-      font-size: 5rem;
+    .monduvin-logo {
+      width: 140px;
+      margin: 0 auto 20px;
       display: block;
-      margin-bottom: 10px;
       animation: float 3s ease-in-out infinite;
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50%       { transform: translateY(-10px); }
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
     }
 
     .hero-title {
-      color: var(--white);
+      color: var(--burgundy-dark);
       font-size: clamp(2rem, 6vw, 3rem);
       margin-bottom: 10px;
       line-height: 1.15;
     }
 
-    .hero-title span { color: var(--gold-light); }
+    .hero-title span {
+      color: var(--gold);
+    }
 
     .hero-sub {
-      color: rgba(255,255,255,0.75);
+      color: var(--text-mid);
       font-size: 1rem;
-      margin-bottom: 32px;
+      margin-bottom: 40px;
       line-height: 1.6;
-    }
-
-    .prize-card {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(201,168,76,0.30);
-      border-radius: var(--radius-lg);
-      padding: 22px 24px;
-      margin-bottom: 32px;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      text-align: left;
-    }
-
-    .prize-emoji { font-size: 2.8rem; flex-shrink: 0; }
-
-    .prize-info-title {
-      color: var(--gold-light);
-      font-family: var(--font-heading);
-      font-size: 1.1rem;
-      margin-bottom: 4px;
-    }
-
-    .prize-info-desc {
-      color: rgba(255,255,255,0.70);
-      font-size: 0.85rem;
-      line-height: 1.45;
     }
 
     .cta-btn {
@@ -104,86 +87,92 @@
       gap: 10px;
       width: 100%;
       padding: 18px 32px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      color: var(--burgundy-dark);
+      background: linear-gradient(135deg, var(--burgundy), var(--burgundy-dark));
+      color: var(--white);
       font-family: var(--font-body);
       font-size: 1.05rem;
       font-weight: 700;
       border: none;
       border-radius: var(--radius-full);
       cursor: pointer;
-      box-shadow: 0 8px 28px rgba(201,168,76,0.40);
+      box-shadow: 0 8px 20px rgba(107, 30, 46, 0.25);
       transition: var(--transition);
       letter-spacing: 0.02em;
       text-decoration: none;
     }
 
-    .cta-btn:hover, .cta-btn:focus {
+    .cta-btn:hover,
+    .cta-btn:focus {
       transform: translateY(-3px);
-      box-shadow: 0 14px 36px rgba(201,168,76,0.55);
-      color: var(--burgundy-dark);
+      box-shadow: 0 12px 28px rgba(107, 30, 46, 0.35);
+      color: var(--white);
     }
 
-    .cta-btn:active { transform: translateY(0); }
+    .cta-btn:active {
+      transform: translateY(0);
+    }
 
-    .cta-arrow { font-size: 1.2rem; transition: transform 0.3s; }
-    .cta-btn:hover .cta-arrow { transform: translateX(5px); }
+    .cta-arrow {
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+
+    .cta-btn:hover .cta-arrow {
+      transform: translateX(5px);
+    }
 
     .info-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-top: 28px;
+      gap: 12px;
+      margin-top: 36px;
       text-align: left;
     }
 
     .info-item {
       display: flex;
       align-items: flex-start;
-      gap: 10px;
-      color: rgba(255,255,255,0.65);
-      font-size: 0.85rem;
+      gap: 12px;
+      color: var(--text-mid);
+      font-size: 0.9rem;
       line-height: 1.4;
     }
 
-    .info-item .icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .info-item .icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      filter: grayscale(1);
+      opacity: 0.7;
+    }
 
     .divider-line {
       border: none;
-      border-top: 1px solid rgba(255,255,255,0.10);
-      margin: 24px 0;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+      opacity: 0.5;
     }
 
     .footer-note {
-      color: rgba(255,255,255,0.4);
+      color: var(--text-light);
       font-size: 0.75rem;
       margin-top: 24px;
     }
   </style>
 </head>
+
 <body>
   <div class="hero-wrap">
-    <div class="event-badge">✦ Evento de Degustação de Vinhos ✦</div>
+    <div class="event-badge">✦ Degustação Monduvin Boutique ✦</div>
 
-    <span class="wine-glass-icon">🍾</span>
+    <img src="assets/Logo_monduvin_boutique_reduzido.png" alt="Monduvin Boutique Logo" class="monduvin-logo">
 
     <h1 class="hero-title">
       Ganhe um <span>Crémant<br>de Bordeaux</span>
     </h1>
     <p class="hero-sub">
-      Participe do nosso sorteio exclusivo e leve pra casa<br>
-      uma garrafa de espumante francês de qualidade excepcional.
+      Participe do nosso sorteio exclusivo e leve para casa
+      o Huis Clos, um crémant de Bordeaux de qualidade excepcional.
     </p>
-
-    <div class="prize-card">
-      <div class="prize-emoji">🏆</div>
-      <div>
-        <div class="prize-info-title">Crémant de Bordeaux AOC</div>
-        <div class="prize-info-desc">
-          Um espumante elegante produzido com uvas Sémillon e Sauvignon Blanc, pelo método tradicional — a alma das borbulhas francesas.
-        </div>
-      </div>
-    </div>
 
     <a href="form.html" class="cta-btn">
       Quero Participar do Sorteio
@@ -201,12 +190,13 @@
       </div>
       <div class="info-item">
         <span class="icon">🔒</span>
-        <span>Seus dados são <strong>confidenciais</strong>. Não compartilhamos com terceiros.</span>
+        <span>Seus dados são <strong>confidenciais</strong>. Não compartilhamos com terceiros</span>
       </div>
     </div>
 
     <hr class="divider-line">
-    <p class="footer-note">Sorteio realizado ao final do evento. Boa sorte! 🥂</p>
+    <p class="footer-note">Desenvolvido por Monduvin Boutique.</p>
   </div>
 </body>
+
 </html>

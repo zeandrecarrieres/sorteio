@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#6B1E2E">
+  <title>Cadastro Confirmado — Sorteio Crémant</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .success-wrap {
+      width: 100%;
+      max-width: 480px;
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .success-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .success-header h1 {
+      margin-bottom: 8px;
+    }
+
+    .success-header p {
+      color: var(--text-mid);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .info-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .info-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 16px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+
+    .info-step .step-num {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      background: linear-gradient(135deg, var(--burgundy), var(--burgundy-dark));
+      color: var(--white);
+      border-radius: 50%;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .info-step .step-body {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    .info-step .step-body strong {
+      color: var(--text-dark);
+    }
+
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--burgundy-dark);
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: var(--transition);
+      margin-top: 10px;
+    }
+
+    .copy-btn:hover {
+      background: var(--gold);
+      color: var(--white);
+    }
+
+    .home-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--burgundy), var(--burgundy-dark));
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+      margin-top: 8px;
+    }
+
+    .home-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      color: var(--white);
+    }
+
+    .footer-emoji {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-top: 24px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Confetti container -->
+  <div id="confettiContainer"></div>
+
+  <div class="success-wrap">
+    <div class="card">
+      <div class="success-header">
+        <div class="success-icon">🎉</div>
+        <h1>Você está no sorteio!</h1>
+        <p>Cadastro confirmado com sucesso. O sorteio será realizado ao final do evento — mantenha seu celular por
+          perto! 🥂</p>
+      </div>
+
+      <!-- Coupon Box -->
+      <div class="coupon-box">
+        <div class="coupon-label">🎫 Seu cupom de desconto exclusivo</div>
+        <div class="coupon-code" id="couponCode">---</div>
+        <div class="coupon-desc">
+          Use este código em nosso site para obter um desconto especial em vinhos franceses selecionados.
+        </div>
+        <button class="copy-btn" onclick="copyCoupon()">
+          📋 Copiar código
+        </button>
+      </div>
+
+      <!-- Info Steps -->
+      <div class="info-steps">
+        <div class="info-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <strong>Guarde seu cupom</strong> — anote ou tire um print do código acima antes de fechar esta página.
+          </div>
+        </div>
+        <div class="info-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <strong>Aguarde o sorteio</strong> — realizado ao vivo ao final da degustação. O ganhador será anunciado!
+          </div>
+        </div>
+        <div class="info-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <strong>Bom proveito!</strong> — Continue a degustação e aproveite os vinhos. 🍷
+          </div>
+        </div>
+      </div>
+
+      <a href="index.html" class="home-btn">← Voltar à página inicial</a>
+    </div>
+
+    <div class="footer-emoji">🍾</div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    (function () {
+      // Retrieve coupon from sessionStorage (set by app.js before redirect)
+      const coupon = sessionStorage.getItem('raffleCoupon') || 'VINHO-XXXXX';
+      document.getElementById('couponCode').textContent = coupon;
+
+      // Launch confetti
+      launchConfetti();
+    })();
+
+    function copyCoupon() {
+      const code = document.getElementById('couponCode').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        showToast('✅ Código copiado!', 'success');
+      }).catch(() => {
+        showToast('Selecione e copie manualmente: ' + code);
+      });
+    }
+
+    function showToast(msg, type = '') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast' + (type ? ' ' + type : '');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function launchConfetti() {
+      const colors = ['#6B1E2E', '#C9A84C', '#E5C97E', '#FAF4EC', '#ffffff', '#8B2E42'];
+      const container = document.getElementById('confettiContainer');
+      const count = 80;
+
+      for (let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const piece = document.createElement('div');
+          piece.className = 'confetti-piece';
+          piece.style.cssText = `
+            left: ${Math.random() * 100}vw;
+            top: -20px;
+            background: ${colors[Math.floor(Math.random() * colors.length)]};
+            width: ${6 + Math.random() * 8}px;
+            height: ${6 + Math.random() * 8}px;
+            border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+            animation-duration: ${1.5 + Math.random() * 2}s;
+            animation-delay: ${Math.random() * 0.5}s;
+          `;
+          container.appendChild(piece);
+          setTimeout(() => piece.remove(), 4000);
+        }, i * 20);
+      }
+    }
+  </script>
+</body>
+
+</html>

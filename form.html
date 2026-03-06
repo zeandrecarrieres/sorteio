@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#6B1E2E">
+  <meta name="description" content="Preencha o formulário e participe do sorteio do Crémant de Bordeaux.">
+  <title>Cadastro — Sorteio Crémant de Bordeaux</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background: var(--cream);
+      padding: 20px 16px 40px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 24px;
+      padding-top: 8px;
+    }
+
+    .page-header .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-light);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    .page-header .back-link:hover {
+      color: var(--burgundy);
+    }
+
+    .page-header h1 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      margin-bottom: 4px;
+    }
+
+    .page-header p {
+      color: var(--text-mid);
+      font-size: 0.9rem;
+    }
+
+    /* Form Steps */
+    .form-step {
+      display: none;
+      animation: fadeInUp 0.4s ease forwards;
+    }
+
+    .form-step.active {
+      display: block;
+    }
+
+    .step-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      color: var(--burgundy-dark);
+      margin-bottom: 6px;
+    }
+
+    .step-desc {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Conditional extra input */
+    .conditional-input {
+      display: none;
+      margin-top: 12px;
+      animation: fadeInUp 0.3s ease forwards;
+    }
+
+    .conditional-input.visible {
+      display: block;
+    }
+
+    /* Opt-in special styling */
+    .optin-box {
+      background: linear-gradient(135deg, rgba(107, 30, 46, 0.04), rgba(201, 168, 76, 0.06));
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+    }
+
+    .optin-box label {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+    }
+
+    .optin-box input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      background: var(--white);
+      transition: var(--transition);
+      cursor: pointer;
+      margin-top: 2px;
+    }
+
+    .optin-box input[type="checkbox"]:checked {
+      background: var(--burgundy);
+      border-color: var(--burgundy);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10'%3E%3Cpath d='M1 5l3.5 3.5L11 1' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: 60%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .optin-text {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      line-height: 1.55;
+    }
+
+    .optin-note {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-top: 8px;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <a href="index.html" class="back-link">← Voltar</a>
+      <h1>Participar do Sorteio 🍾</h1>
+      <p>Preencha o formulário abaixo para concorrer</p>
+    </div>
+
+    <!-- Step Indicator -->
+    <div class="steps-indicator">
+      <div class="step-dot active" id="dot-1">1</div>
+      <div class="step-line" id="line-1-2"></div>
+      <div class="step-dot" id="dot-2">2</div>
+      <div class="step-line" id="line-2-3"></div>
+      <div class="step-dot" id="dot-3">3</div>
+    </div>
+    <div class="steps-labels">
+      <span class="step-label active" id="lbl-1">Seus Dados</span>
+      <span class="step-label" id="lbl-2">Preferências</span>
+      <span class="step-label" id="lbl-3">Finalizar</span>
+    </div>
+
+    <div class="progress-bar-wrap" style="margin-top:14px;">
+      <div class="progress-bar" id="progressBar" style="width: 33%;"></div>
+    </div>
+
+    <!-- Prize Banner -->
+    <div class="prize-banner">
+      <div class="prize-icon">🏆</div>
+      <div class="prize-text">
+        <div class="prize-title">Prêmio: Crémant de Bordeaux</div>
+        Sorteio realizado ao final do evento. Boa sorte!
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <form id="raffleForm" novalidate>
+
+      <!-- =============== STEP 1: Dados Pessoais =============== -->
+      <div class="card form-step active" id="step1">
+        <div class="step-title">Seus dados pessoais</div>
+        <p class="step-desc">Utilizaremos para entrar em contato caso você seja o sortudo(a)! 🎉</p>
+
+        <div class="form-group">
+          <label class="form-label" for="nome">Nome Completo <span class="required">*</span></label>
+          <input class="form-control" type="text" id="nome" name="nome" placeholder="Como você se chama?"
+            autocomplete="name" inputmode="text">
+          <div class="field-error" id="err-nome">Por favor, informe seu nome completo.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">E-mail <span class="required">*</span></label>
+          <input class="form-control" type="email" id="email" name="email" placeholder="seu@email.com"
+            autocomplete="email" inputmode="email">
+          <div class="field-error" id="err-email">Por favor, informe um e-mail válido.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="celular">Celular / WhatsApp <span class="required">*</span></label>
+          <input class="form-control" type="tel" id="celular" name="celular" placeholder="(00) 00000-0000"
+            autocomplete="tel" inputmode="tel" maxlength="16">
+          <div class="field-error" id="err-celular">Por favor, informe seu WhatsApp.</div>
+        </div>
+
+        <div class="form-nav">
+          <button type="button" class="btn btn-primary" id="btnStep1Next">
+            Próximo <span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- =============== STEP 2: Pesquisa de Preferências =============== -->
+      <div class="card form-step" id="step2">
+        <div class="step-title">Suas preferências vinícolas 🍷</div>
+        <p class="step-desc">Nos ajude a entender melhor o seu paladar e hábitos.</p>
+
+        <!-- Tipo de vinho -->
+        <div class="form-group">
+          <label class="form-label">Que tipo de vinho você prefere? <span class="required">*</span></label>
+          <div class="choice-group">
+            <label class="choice-item">
+              <input type="checkbox" name="tiposVinho" value="espumante"> 🥂 Espumantes
+            </label>
+            <label class="choice-item">
+              <input type="checkbox" name="tiposVinho" value="branco"> 🥛 Brancos
+            </label>
+            <label class="choice-item">
+              <input type="checkbox" name="tiposVinho" value="tinto"> 🍷 Tintos
+            </label>
+            <label class="choice-item">
+              <input type="checkbox" name="tiposVinho" value="licoroso"> 🍯 Licorosos / Doces
+            </label>
+          </div>
+          <div class="field-error" id="err-tiposVinho">Selecione ao menos uma opção.</div>
+        </div>
+
+        <div class="section-divider"><span>hábitos</span></div>
+
+        <!-- Frequência -->
+        <div class="form-group">
+          <label class="form-label">Com que frequência você consome vinhos? <span class="required">*</span></label>
+          <div class="choice-group">
+            <label class="choice-item">
+              <input type="radio" name="frequencia" value="raramente"> Raramente (ocasionalmente)
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="frequencia" value="mensalmente"> Mensalmente
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="frequencia" value="semanalmente"> Semanalmente
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="frequencia" value="diariamente"> Quase diariamente
+            </label>
+          </div>
+          <div class="field-error" id="err-frequencia">Por favor, selecione uma opção.</div>
+        </div>
+
+        <!-- Vinhos Franceses -->
+        <div class="form-group">
+          <label class="form-label">Você costuma tomar vinhos franceses? <span class="required">*</span></label>
+          <div class="choice-group">
+            <label class="choice-item">
+              <input type="radio" name="vinhosFranceses" value="sim"> Sim, com regularidade
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="vinhosFranceses" value="as_vezes"> Às vezes
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="vinhosFranceses" value="nao"> Não costumo, mas tenho interesse
+            </label>
+          </div>
+          <div class="field-error" id="err-vinhosFranceses">Por favor, selecione uma opção.</div>
+        </div>
+
+        <!-- Onde compra -->
+        <div class="form-group">
+          <label class="form-label">Onde você costuma comprar seus vinhos? <span class="required">*</span></label>
+          <div class="choice-group">
+            <label class="choice-item">
+              <input type="checkbox" name="ondeCompra" value="supermercado"> 🛒 Supermercado
+            </label>
+            <label class="choice-item">
+              <input type="checkbox" name="ondeCompra" value="emporio"> 🏪 Empório / Loja especializada
+            </label>
+            <label class="choice-item">
+              <input type="checkbox" name="ondeCompra" value="online"> 💻 Online / E-commerce
+            </label>
+            <label class="choice-item">
+              <input type="checkbox" name="ondeCompra" value="clube"> 📦 Clube de assinatura
+            </label>
+            <label class="choice-item">
+              <input type="checkbox" name="ondeCompra" value="outros"> Outros
+            </label>
+          </div>
+          <div class="field-error" id="err-ondeCompra">Selecione ao menos uma opção.</div>
+        </div>
+
+        <div class="section-divider"><span>comunidade & escolhas</span></div>
+
+        <!-- Grupos de vinho -->
+        <div class="form-group">
+          <label class="form-label">Você participa de grupos de vinho?</label>
+          <div class="choice-group">
+            <label class="choice-item">
+              <input type="radio" name="participaGrupo" value="sim" id="grupoSim"> Sim
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="participaGrupo" value="nao"> Não
+            </label>
+          </div>
+          <div class="conditional-input" id="grupoQuaisWrap">
+            <label class="form-label" for="grupoQuais">Quais grupos?</label>
+            <input class="form-control" type="text" id="grupoQuais" name="grupoQuais"
+              placeholder="Ex: Clube dos Apreciadores, grupo do WhatsApp...">
+          </div>
+        </div>
+
+        <!-- Como escolhe -->
+        <div class="form-group">
+          <label class="form-label">Como você costuma escolher seus vinhos? <span class="required">*</span></label>
+          <div class="choice-group">
+            <label class="choice-item">
+              <input type="checkbox" name="comoEscolhe" value="conhecimento"> Pelo meu próprio conhecimento
+            </label>
+            <label class="choice-item">
+              <input type="checkbox" name="comoEscolhe" value="experimentar"> Para experimentar novidades
+            </label>
+            <label class="choice-item">
+              <input type="checkbox" name="comoEscolhe" value="indicacao_amigos"> Por indicação de amigos
+            </label>
+            <label class="choice-item">
+              <input type="checkbox" name="comoEscolhe" value="indicacao_sommelier"> Por indicação de profissional
+              (sommelier)
+            </label>
+          </div>
+          <div class="field-error" id="err-comoEscolhe">Selecione ao menos uma opção.</div>
+        </div>
+
+        <div class="form-nav">
+          <button type="button" class="btn btn-secondary" id="btnStep2Back">← Voltar</button>
+          <button type="button" class="btn btn-primary" id="btnStep2Next">Próximo →</button>
+        </div>
+      </div>
+
+      <!-- =============== STEP 3: Interesse & Autorização =============== -->
+      <div class="card form-step" id="step3">
+        <div class="step-title">Quase lá! ✨</div>
+        <p class="step-desc">Só mais algumas perguntinhas e você estará no sorteio.</p>
+
+        <!-- Interesse em exclusivos -->
+        <div class="form-group">
+          <label class="form-label">
+            Você gostaria de conhecer mais sobre vinhos franceses exclusivos e de pequenos produtores? <span
+              class="required">*</span>
+          </label>
+          <div class="choice-group">
+            <label class="choice-item">
+              <input type="radio" name="interesseExclusivos" value="muito"> 🤩 Sim, tenho muito interesse!
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="interesseExclusivos" value="talvez"> 🤔 Talvez, dependendo dos preços
+            </label>
+            <label class="choice-item">
+              <input type="radio" name="interesseExclusivos" value="nao_agora"> 😊 Não por enquanto
+            </label>
+          </div>
+          <div class="field-error" id="err-interesseExclusivos">Por favor, selecione uma opção.</div>
+        </div>
+
+        <!-- Cupom de Desconto -->
+        <div class="prize-banner" style="margin-bottom: 20px;">
+          <div class="prize-icon">🎫</div>
+          <div class="prize-text">
+            <div class="prize-title">Cupom de desconto incluso!</div>
+            Ao concluir o cadastro, você receberá um cupom exclusivo de desconto para usar em nosso site.
+          </div>
+        </div>
+
+        <!-- Opt-in Autorização -->
+        <div class="form-group">
+          <label class="form-label">Comunicações <span class="required">*</span></label>
+          <div class="optin-box">
+            <label>
+              <input type="checkbox" id="autorizaEnvio" name="autorizaEnvio" value="sim">
+              <div class="optin-text">
+                <strong>Autorizo o envio esporádico</strong> de informações sobre vinhos franceses e promoções em
+                primeira mão.
+                <span class="optin-note">
+                  🔒 Prezamos pela sua privacidade. Não enviamos spam — apenas novidades relevantes e ocasionais. Você
+                  pode cancelar quando quiser.
+                </span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-nav">
+          <button type="button" class="btn btn-secondary" id="btnStep3Back">← Voltar</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmit">
+            <span id="btnSubmitText">🍾 Participar do Sorteio!</span>
+            <div class="spinner" id="btnSpinner" style="display:none;"></div>
+          </button>
+        </div>
+
+        <p class="helper-text text-center" style="margin-top:12px;">
+          Ao participar, você concorda com o uso dos dados para este evento conforme nossa política de privacidade.
+        </p>
+      </div>
+
+    </form>
+
+    <footer class="app-footer">
+      Sorteio realizado ao final do evento · Apenas maiores de 18 anos
+    </footer>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <!-- App Config -->
+  <script src="js/firebase-config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>

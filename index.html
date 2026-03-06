@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#6B1E2E">
+  <meta name="description" content="Participe do sorteio de uma garrafa de Crémant de Bordeaux. Cadastre-se e concorra!">
+  <title>Sorteio — Crémant de Bordeaux</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background: linear-gradient(160deg, var(--burgundy-dark) 0%, var(--burgundy) 45%, #3D0B18 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .hero-wrap {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      animation: fadeInUp 0.7s ease forwards;
+    }
+
+    .event-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.20);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      padding: 6px 18px;
+      border-radius: var(--radius-full);
+      margin-bottom: 24px;
+    }
+
+    .wine-glass-icon {
+      font-size: 5rem;
+      display: block;
+      margin-bottom: 10px;
+      animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    .hero-title {
+      color: var(--white);
+      font-size: clamp(2rem, 6vw, 3rem);
+      margin-bottom: 10px;
+      line-height: 1.15;
+    }
+
+    .hero-title span { color: var(--gold-light); }
+
+    .hero-sub {
+      color: rgba(255,255,255,0.75);
+      font-size: 1rem;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .prize-card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(201,168,76,0.30);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      text-align: left;
+    }
+
+    .prize-emoji { font-size: 2.8rem; flex-shrink: 0; }
+
+    .prize-info-title {
+      color: var(--gold-light);
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .prize-info-desc {
+      color: rgba(255,255,255,0.70);
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 18px 32px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--burgundy-dark);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(201,168,76,0.40);
+      transition: var(--transition);
+      letter-spacing: 0.02em;
+      text-decoration: none;
+    }
+
+    .cta-btn:hover, .cta-btn:focus {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 36px rgba(201,168,76,0.55);
+      color: var(--burgundy-dark);
+    }
+
+    .cta-btn:active { transform: translateY(0); }
+
+    .cta-arrow { font-size: 1.2rem; transition: transform 0.3s; }
+    .cta-btn:hover .cta-arrow { transform: translateX(5px); }
+
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 28px;
+      text-align: left;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: rgba(255,255,255,0.65);
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .info-item .icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+    .divider-line {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.10);
+      margin: 24px 0;
+    }
+
+    .footer-note {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.75rem;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero-wrap">
+    <div class="event-badge">✦ Evento de Degustação de Vinhos ✦</div>
+
+    <span class="wine-glass-icon">🍾</span>
+
+    <h1 class="hero-title">
+      Ganhe um <span>Crémant<br>de Bordeaux</span>
+    </h1>
+    <p class="hero-sub">
+      Participe do nosso sorteio exclusivo e leve pra casa<br>
+      uma garrafa de espumante francês de qualidade excepcional.
+    </p>
+
+    <div class="prize-card">
+      <div class="prize-emoji">🏆</div>
+      <div>
+        <div class="prize-info-title">Crémant de Bordeaux AOC</div>
+        <div class="prize-info-desc">
+          Um espumante elegante produzido com uvas Sémillon e Sauvignon Blanc, pelo método tradicional — a alma das borbulhas francesas.
+        </div>
+      </div>
+    </div>
+
+    <a href="form.html" class="cta-btn">
+      Quero Participar do Sorteio
+      <span class="cta-arrow">→</span>
+    </a>
+
+    <div class="info-list">
+      <div class="info-item">
+        <span class="icon">⏱️</span>
+        <span>Leva menos de <strong>2 minutos</strong> para se cadastrar</span>
+      </div>
+      <div class="info-item">
+        <span class="icon">🎫</span>
+        <span>Ganhe também um <strong>cupom de desconto</strong> exclusivo ao preencher</span>
+      </div>
+      <div class="info-item">
+        <span class="icon">🔒</span>
+        <span>Seus dados são <strong>confidenciais</strong>. Não compartilhamos com terceiros.</span>
+      </div>
+    </div>
+
+    <hr class="divider-line">
+    <p class="footer-note">Sorteio realizado ao final do evento. Boa sorte! 🥂</p>
+  </div>
+</body>
+</html>

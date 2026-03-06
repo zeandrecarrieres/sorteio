@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de QR Code — Sorteio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background: var(--cream);
+      padding: 32px 16px;
+    }
+
+    .admin-badge {
+      display: inline-block;
+      background: rgba(107, 30, 46, 0.10);
+      color: var(--burgundy);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 14px;
+      border-radius: var(--radius-full);
+      margin-bottom: 20px;
+    }
+
+    #qrContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin: 24px 0;
+      min-height: 260px;
+    }
+
+    #qrContainer canvas,
+    #qrContainer img {
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      border: 8px solid var(--white);
+    }
+
+    .url-preview {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      word-break: break-all;
+      text-align: center;
+      padding: 0 8px;
+    }
+
+    .qr-instructions {
+      background: rgba(107, 30, 46, 0.05);
+      border-left: 3px solid var(--burgundy);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 14px 16px;
+      font-size: 0.85rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="text-center">
+      <span class="admin-badge">⚙️ Área do Organizador</span>
+    </div>
+    <h1 style="text-align:center; margin-bottom:4px;">Gerador de QR Code</h1>
+    <p style="text-align:center; color:var(--text-mid); margin-bottom:24px; font-size:0.9rem;">
+      Insira a URL pública do app para gerar o QR Code do evento.
+    </p>
+
+    <div class="card">
+      <div class="form-group">
+        <label class="form-label" for="urlInput">URL do Aplicativo <span class="required">*</span></label>
+        <input class="form-control" type="url" id="urlInput" placeholder="https://seu-projeto.web.app" value="">
+        <div class="helper-text">Endereço público onde o app está hospedado (Firebase Hosting, Vercel, etc.)</div>
+      </div>
+
+      <button class="btn btn-primary" id="generateBtn" onclick="generateQR()">
+        📱 Gerar QR Code
+      </button>
+
+      <div id="qrContainer">
+        <p style="color:var(--text-light); font-size:0.9rem; margin-top:32px;">O QR Code aparecerá aqui...</p>
+      </div>
+
+      <div id="downloadWrap" style="display:none;">
+        <button class="btn btn-secondary" id="downloadBtn" onclick="downloadQR()">
+          ⬇️ Baixar QR Code (PNG)
+        </button>
+        <p class="url-preview" id="urlPreview"></p>
+      </div>
+
+      <div class="qr-instructions">
+        <strong>Como usar no evento:</strong><br>
+        1. Insira a URL pública acima e clique em "Gerar"<br>
+        2. Baixe a imagem PNG e imprima em tamanho A5 ou maior<br>
+        3. Posicione em locais visíveis durante a degustação<br>
+        4. Participantes escaneiam com a câmera do celular
+      </div>
+    </div>
+  </div>
+
+  <!-- QRCode.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script>
+    let qrCanvas = null;
+
+    function generateQR() {
+      const url = document.getElementById('urlInput').value.trim();
+      if (!url) {
+        alert('Por favor, insira a URL do aplicativo.');
+        return;
+      }
+      if (!url.startsWith('http')) {
+        alert('A URL deve começar com https://');
+        return;
+      }
+
+      const container = document.getElementById('qrContainer');
+      container.innerHTML = '';
+
+      qrCanvas = document.createElement('canvas');
+      container.appendChild(qrCanvas);
+
+      QRCode.toCanvas(qrCanvas, url, {
+        width: 260,
+        margin: 2,
+        color: { dark: '#4A1020', light: '#FAF4EC' }
+      }, function (error) {
+        if (error) {
+          container.innerHTML = '<p style="color:var(--error)">Erro ao gerar QR Code. Verifique a URL.</p>';
+          return;
+        }
+        document.getElementById('urlPreview').textContent = '🔗 ' + url;
+        document.getElementById('downloadWrap').style.display = 'block';
+      });
+    }
+
+    function downloadQR() {
+      if (!qrCanvas) return;
+      const link = document.createElement('a');
+      link.download = 'qrcode-sorteio-vinho.png';
+      link.href = qrCanvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Allow Enter key to trigger generation
+    document.getElementById('urlInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') generateQR();
+    });
+  </script>
+</body>
+
+</html>
